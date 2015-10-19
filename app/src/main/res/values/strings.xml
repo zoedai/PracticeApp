@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PhoneHelper</string>
+    <string name="call">Make a call</string>
+    <string name="calendar">Show Calendar, Set Reminder</string>
+    <string name="browser">Open a browser</string>
+    <string name="address">Manage address book</string>
+    <string name="location">Show my location, take me somewhere</string>
+    <string name="sms">Send-read SMS messages</string>
+    <string name="newSms">Compose SMS</string>
+    <string name="readSms">Show my SMS messages</string>
+    <string name="showLoc">Show my location on Map</string>
+    <string name="gotoLoc">Go somewhere</string>
+    <string name="addReminder">Add a reminder</string>
+</resources>
