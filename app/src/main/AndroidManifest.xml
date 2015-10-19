@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".SmsActivity" >
         </activity>
+        <activity android:name=".AddressActivity" >
+        </activity>
     </application>
 
 </manifest>
