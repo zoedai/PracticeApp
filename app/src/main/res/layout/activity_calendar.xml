@@ -35,7 +35,7 @@
         android:layout_margin="10dp"
         android:layout_weight="1.5"
         android:text="@string/addReminder"
-        android:id="@+id/button4"
+        android:id="@+id/addReminder"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/calendarView"
         android:textSize="22sp" />

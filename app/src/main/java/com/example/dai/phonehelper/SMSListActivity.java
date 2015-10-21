@@ -133,6 +133,12 @@ public class SMSListActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onStop() {
+        unregisterReceiver(receiver);
+        super.onStop();
+    }
+
     public void read(View view) {
         ViewGroup row = (ViewGroup) view.getParent().getParent();
         StringBuffer toSpeak = new StringBuffer("Message sent from ");
@@ -144,7 +150,7 @@ public class SMSListActivity extends AppCompatActivity {
     }
 
     public void delete(View view) {
-        
+
     }
 }
 

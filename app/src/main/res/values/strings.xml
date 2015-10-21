@@ -11,6 +11,12 @@
     <string name="showLoc">Show my location on Map</string>
     <string name="gotoLoc">Go somewhere</string>
     <string name="addReminder">Add a reminder</string>
+    <string name="reminderHint">add a note</string>
     <string name="read">Read</string>
     <string name="delete">Delete</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
