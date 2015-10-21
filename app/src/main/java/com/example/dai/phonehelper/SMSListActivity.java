@@ -8,19 +8,26 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 
+
+import android.provider.ContactsContract;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.Locale;
 
@@ -28,9 +35,9 @@ public class SMSListActivity extends AppCompatActivity {
 
     private ListView listView;
     private final Uri INBOXURI = Uri.parse("content://sms/inbox");
-    String[] fromColumns = {"_id", "address", "body"};
-    int[] toViews = {0, R.id.sms_contact, R.id.sms_body};
-//    int[] toViews = {0, android.R.id.text1, android.R.id.text2 };
+    final String[] fromColumns = {"_id", "address", "body"};
+//    int[] toViews = {0, R.id.sms_contact, R.id.sms_body};
+    int[] toViews = {0, android.R.id.text1, android.R.id.text2 };
     ContentResolver cr;
     Cursor cursor;
     SimpleCursorAdapter adapter;
@@ -38,6 +45,9 @@ public class SMSListActivity extends AppCompatActivity {
     private boolean selected = false;
     private int selectedId = -1;
     private TextToSpeech t1;
+    ToggleButton readSMS, delSMS;
+    long mSmsId;
+    Uri mSmsUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +59,33 @@ public class SMSListActivity extends AppCompatActivity {
         cr = getContentResolver();
         cursor = cr.query(INBOXURI, fromColumns, null, null, null);
 
+        //adapter = new SimpleCursorAdapter(this,
+               // R.layout.sms_row, cursor, fromColumns, toViews, 0);
+
         adapter = new SimpleCursorAdapter(this,
-                R.layout.sms_row, cursor, fromColumns, toViews, 0);
+                android.R.layout.simple_list_item_2, cursor, fromColumns, toViews, 0);
+
 
         listView.setAdapter(adapter);
 
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selected = true;
-                selectedId = position;
-            }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selected = false;
+
+                if (delSMS.isChecked()) {
+                    Cursor cursor = ((SimpleCursorAdapter)parent.getAdapter()).getCursor();
+                    // Move to the selected contact
+                    cursor.moveToPosition(position);
+                    // Get the _ID value
+                    mSmsId = cursor.getLong(cursor.getColumnIndex(fromColumns[0]));
+                    getContentResolver().delete(Uri.parse("content://sms/"+mSmsId), null, null);
+                    updateSMS();
+                } else if (readSMS.isChecked()) {
+                    read(view);
+                }
+
+
             }
         });
 
@@ -79,31 +101,35 @@ public class SMSListActivity extends AppCompatActivity {
         });
 
 
-//        Button readSMS = (Button) findViewById(R.id.readBtn);
-//        Button delSMS = (Button) findViewById(R.id.delBtn);
+        readSMS = (ToggleButton) findViewById(R.id.readBtn);
+        delSMS = (ToggleButton) findViewById(R.id.delBtn);
 
-      /*  readSMS.setOnClickListener(new View.OnClickListener() {
+        readSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (selected) {
-                    CharSequence cs = cursor.getString(cursor.getColumnIndex(fromColumns[2]));
-                    Log.i("TTTTTTTTTTTT",
-                         cs.toString());
-
-                    t1.speak(cs, TextToSpeech.QUEUE_FLUSH, null, null);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    delSMS.setChecked(false);
                 }
+
             }
         });
-*/
+
+        delSMS.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked())
+                readSMS.setChecked(false);
+            }
+        });
+
     }
 
 
     private void updateSMS() {
-        // not working
+        // sometimes not working
         cursor = cr.query(INBOXURI, fromColumns, null, null, null);
         adapter.changeCursor(cursor);
         adapter.notifyDataSetChanged();
-//        listView.setAdapter(adapter);
     }
 
     @Override
@@ -137,12 +163,14 @@ public class SMSListActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    public void read(View view) {
-        ViewGroup row = (ViewGroup) view.getParent().getParent();
+
+
+    public void read(View row) {
+//        ViewGroup row = (ViewGroup) view.getParent().getParent();
         StringBuffer toSpeak = new StringBuffer("Message sent from ");
-        toSpeak.append(((TextView) row.findViewById(R.id.sms_contact)).getText());
+        toSpeak.append(((TextView) row.findViewById(toViews[1])).getText());
         toSpeak.append(". ");
-        toSpeak.append(((TextView) row.findViewById(R.id.sms_body)).getText());
+        toSpeak.append(((TextView) row.findViewById(toViews[2])).getText());
         t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, null);
 
     }
@@ -150,6 +178,8 @@ public class SMSListActivity extends AppCompatActivity {
     public void delete(View view) {
 
     }
+
+
 }
 
 
