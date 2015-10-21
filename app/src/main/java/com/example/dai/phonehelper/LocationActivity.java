@@ -21,7 +21,13 @@ public class LocationActivity extends AppCompatActivity implements
     }
 
     public void showMyLocation(View view) {
-        startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+//        startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+
     }
 
     public void goSomewhere(View view) {

@@ -6,6 +6,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,9 +47,20 @@ public class MyLocationActivity extends FragmentActivity implements OnMapReadyCa
         String bestProvider = locationManager.getBestProvider(criteria, true);
 
         Location location = locationManager.getLastKnownLocation(bestProvider);
+
         // Add a marker in Sydney and move the camera
-        LatLng myLoc = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
+        if (location != null) {
+            LatLng myLoc = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(myLoc).title("You are here"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc));
+        }
+
+    }
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 }
