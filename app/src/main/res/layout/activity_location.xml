@@ -14,7 +14,8 @@
         android:id="@+id/button2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"
+        android:textSize="22sp" />
 
     <Button
         android:layout_width="match_parent"
@@ -22,5 +23,6 @@
         android:text="@string/gotoLoc"
         android:id="@+id/button3"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/button2" />
+        android:layout_alignStart="@+id/button2"
+        android:textSize="22sp" />
 </RelativeLayout>

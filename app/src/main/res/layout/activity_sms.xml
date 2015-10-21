@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/readSms"
-        android:id="@+id/button"
+        android:id="@+id/smsListBtn"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp" />
+        android:layout_marginTop="98dp"
+        android:textSize="22sp" />
 
     <Button
         android:layout_width="match_parent"
@@ -22,5 +23,5 @@
         android:text="@string/newSms"
         android:id="@+id/writeSmsBtn"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/button" />
+        android:textSize="22sp" />
 </RelativeLayout>
