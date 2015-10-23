@@ -21,7 +21,8 @@ public class AddressActivity extends AppCompatActivity
         AdapterView.OnItemClickListener {
 
 
-
+    public final static String SHOW_CONTACT_ACTION = "com.example.dai.SHOW_CONTACT_ACTION";
+    public final static String RETURN_NUMBER_ACTION = "com.example.dai.RETURN_NUMBER_ACTION";
     ListView mContactsList;
     // Define variables for the contact the user selects
     // The contact's _ID value
@@ -52,11 +53,14 @@ public class AddressActivity extends AppCompatActivity
     private static final int CONTACT_ID_INDEX = 0;
     // The column index for the LOOKUP_KEY column
     private static final int LOOKUP_KEY_INDEX = 1;
+    private String ACTION;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
-        getLoaderManager().initLoader(0, null, this);
+
+        ACTION = getIntent().getAction();
         mContactsList = (ListView) findViewById(R.id.contactList);
 
 
@@ -115,7 +119,12 @@ public class AddressActivity extends AppCompatActivity
          * You can use mContactUri as the content URI for retrieving
          * the details for a contact.
          */
-        Intent openContact = new Intent(Intent.ACTION_VIEW, mContactUri);
-        startActivity(openContact);
+        if (ACTION.equals(SHOW_CONTACT_ACTION)) {
+            Intent openContact = new Intent(Intent.ACTION_VIEW, mContactUri);
+            startActivity(openContact);
+        } else {
+
+        }
+
     }
 }

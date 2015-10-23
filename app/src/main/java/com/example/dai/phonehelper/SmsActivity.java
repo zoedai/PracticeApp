@@ -30,6 +30,13 @@ public class SmsActivity extends AppCompatActivity {
                 ));
             }
         });
+
+        composeSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ComposeSmsActivity.class));
+            }
+        });
     }
 
     @Override
